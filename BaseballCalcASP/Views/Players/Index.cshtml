@@ -3,19 +3,18 @@
 @{
     ViewData["Title"] = "Players";
 }
-
 <p style="user-select:none;"><a asp-action="Create">Create New</a></p>
 <table class="table">
     <thead style="user-select:none;">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <p>@Html.DisplayNameFor(model => model.Name)</p>
             </th>
             <th>
                 <p>Leeftijd</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Team.Name)
+                <p>@Html.DisplayNameFor(model => model.Team.Name)</p>
             </th>
             <th></th>
         </tr>
@@ -35,7 +34,8 @@
             <td style="user-select:none;">
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-controller="Seasons" asp-action="Index" asp-route-id="@item.Id">Seasons</a>
             </td>
         </tr>
 }

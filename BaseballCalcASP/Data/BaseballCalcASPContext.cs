@@ -17,5 +17,7 @@ namespace BaseballCalcASP.Data
         public DbSet<BaseballCalcASP.Models.Team> Teams { get; set; } = default!;
 
         public DbSet<BaseballCalcASP.Models.Player>? Players { get; set; }
+
+        public DbSet<BaseballCalcASP.Models.Season>? Seasons { get; set; }
     }
 }

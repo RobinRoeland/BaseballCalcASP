@@ -12,6 +12,10 @@ namespace BaseballCalcASP.Models
         [Required]
         public string Name { get; set; }
 
+        [DisplayName("Rugnummer")]
+        [DisplayFormat(NullDisplayText = "N/A")]
+        public int? Rugnummer { get; set; } = null;
+
         [DisplayName("Geboortedatum")]
         [Required]
         [DataType(DataType.Date)]

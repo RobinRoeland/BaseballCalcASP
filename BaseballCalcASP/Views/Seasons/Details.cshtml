@@ -1,0 +1,64 @@
+﻿@model BaseballCalcASP.Models.Season
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    row {
+        display:flex;
+        flex-direction:row;
+    }
+
+    column {
+        display: flex;
+        flex-direction: column;
+        margin-left: 5%;
+    }
+</style>
+
+<h1>Details</h1>
+
+<div>
+    <row>
+        @{
+            Season season = Model;
+            float atbats = season.PlateAppearences - (season.BaseOnBalls + season.HitByPitch + season.SacrificeFlies + season.SacrificeHits); //, interference, or obstruction
+            float obp = (season.Hits + season.BaseOnBalls + season.HitByPitch) / (atbats + season.BaseOnBalls + season.HitByPitch + season.SacrificeFlies);
+            float totalbases = season.Singles + 2 * season.Doubles + 3 * season.Triples + 4 * season.HomeRuns;
+            float sluggingavg = totalbases / atbats;
+        }
+        <column>
+            <p><h4>@Html.DisplayNameFor(seasonItem => season.PlayerKey)</h4>@season.PlayerKey</p>
+            <p><h4>@Html.DisplayNameFor(seasonItem =>season.GamesPlayed)</h4>@season.GamesPlayed</p>
+            <p><h4>@Html.DisplayNameFor(seasonItem => season.Year)</h4>@season.Year</p>
+        </column>
+        <column>
+            <h1>Hitting Stats</h1>
+            <p><h4>Total Avg</h4> @Math.Round((totalbases + season.BaseOnBalls + season.StolenBases) / (season.PlateAppearences + season.CaughtStealing), 2)</p>
+            <p><h4>Slugging</h4> @Math.Round(sluggingavg, 2)</p>
+            <p><h4>Batting Avg</h4> @Math.Round(season.Hits / atbats, 3)</p>
+            <p><h4>At Bats</h4> @atbats</p>
+            <p><h4>Hits</h4> @Html.DisplayFor(seasonItem => season.Hits)</p>
+            <p><h4>Strikeouts</h4> @Html.DisplayFor(seasonItem => season.HStrikeOuts)</p>
+            <p><h4>Base On Balls</h4> @Html.DisplayFor(seasonItem => season.BaseOnBalls)<p>
+            <p><h4>Hit By Pitch</h4> @Html.DisplayFor(seasonItem => season.HitByPitch)</p>
+            <p><h4>Base On Balls / Strikeouts</h4> @(Math.Round((double)(season.BaseOnBalls / season.HStrikeOuts), 2))</p>
+            <p><h4>Total Bases</h4> @totalbases</p>
+            <p><h4>Singles</h4> @Html.DisplayFor(seasonItem => season.Singles)</p>
+            <p><h4>Doubles</h4> @Html.DisplayFor(seasonItem => season.Doubles)</p>
+            <p><h4>Triples</h4> @Html.DisplayFor(seasonItem => season.Triples)</p>
+            <p><h4>Home Runs</h4> @Html.DisplayFor(seasonItem => season.HomeRuns)</p>
+            <p><h4>On Base Percentage</h4> @Math.Round(obp, 2)</p>
+            <p><h4>On Base Plus Slugging</h4> @Math.Round((obp + sluggingavg), 2)</p>
+            <p><h4>Stolen Bases</h4> @Html.DisplayFor(seasonItem => season.StolenBases)</p>
+            <p><h4>Caught Stealing</h4> @Html.DisplayFor(seasonItem => season.CaughtStealing)</p>
+        </column>
+        <column>
+            <h1>Pitching Stats</h1>
+            <p><h4>Strikeouts</h4> @Html.DisplayFor(seasonItem => season.PStrikeOuts)</p>
+        </column>
+    </row>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
