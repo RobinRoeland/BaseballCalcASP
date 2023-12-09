@@ -9,7 +9,8 @@
         <a asp-action="Create">Create New</a>
     }
 </p>
-<table class="table">
+<input id="q" name="q" type="search" placeholder="Search" onkeyup="updatetable()" />
+<table id="qtable" class="table">
     <thead style="user-select:none;">
         <tr>
             <th>
@@ -49,3 +50,26 @@
 }
     </tbody>
  </table>
+<script>
+    function updatetable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("q");
+        filter = input.value;
+        table = document.getElementById("qtable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.innerText.split(' ')[0];
+                if (txtValue.indexOf(filter) > -1 && txtValue.startsWith(filter)) {
+                    tr[i].style.display = "";
+                } else {
+                    console.log(txtValue.indexOf(filter) + " ; " + txtValue + " ; " + filter + " ; " + txtValue.startsWith(filter))
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
