@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using BaseballCalcASP.Data;
 using BaseballCalcASP.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace BaseballCalcASP.Controllers
 {
@@ -15,7 +17,16 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Seasons
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
+        {
+            ViewBag.players = _context.Players;
+
+            return _context.Seasons != null ?
+                View(await _context.Seasons.ToListAsync()) :
+                Problem("Entity set 'BaseballCalcASPContext.Season'  is null.");
+        }
+
+        public async Task<IActionResult> Index2(int? id)
         {
             ViewBag.players = _context.Players;
             ViewBag.playerid = id;
@@ -23,8 +34,8 @@ namespace BaseballCalcASP.Controllers
             if (id != null)
             {
                 List<Season>? seasons = _context.Seasons.Where(season => season.PlayerKey == id).ToList();
-                return seasons != null ? 
-                    View(seasons) : 
+                return seasons != null ?
+                    View(seasons) :
                     Problem("Player or seasons not found.");
             }
             else
@@ -63,6 +74,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Seasons/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create(int? id)
         {
             ViewBag.Player = _context.Players.Find(id);
@@ -75,6 +87,7 @@ namespace BaseballCalcASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,PlayerKey,GamesPlayed,Year,PlateAppearences,HStrikeOuts,Hits,Singles,Doubles,Triples,HomeRuns,BaseOnBalls,HitByPitch,SacrificeFlies,SacrificeHits,CaughtStealing,StolenBases,Runs,Errors,DoublePlays,TriplePlays,PassedBalls,PStrikeOuts")] Season season)
         {
             if (ModelState.IsValid)
@@ -87,6 +100,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Seasons/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Seasons == null)
@@ -107,6 +121,7 @@ namespace BaseballCalcASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PlayerKey,GamesPlayed,Year,PlateAppearences,HStrikeOuts,Hits,Singles,Doubles,Triples,HomeRuns,BaseOnBalls,HitByPitch,SacrificeFlies,SacrificeHits,CaughtStealing,StolenBases,Runs,Errors,DoublePlays,TriplePlays,PassedBalls,PStrikeOuts")] Season season)
         {
             if (id != season.Id)
@@ -138,6 +153,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Seasons/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Seasons == null)

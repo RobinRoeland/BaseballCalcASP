@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BaseballCalcASP.Data;
 using BaseballCalcASP.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace BaseballCalcASP.Controllers
 {
@@ -46,6 +48,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Teams/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +59,7 @@ namespace BaseballCalcASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,Name")] Team team)
         {
             if (ModelState.IsValid)
@@ -68,6 +72,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Teams/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Teams == null)
@@ -88,6 +93,7 @@ namespace BaseballCalcASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Team team)
         {
             if (id != team.Id)
@@ -119,6 +125,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Teams/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Teams == null)
@@ -139,6 +146,7 @@ namespace BaseballCalcASP.Controllers
         // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Teams == null)

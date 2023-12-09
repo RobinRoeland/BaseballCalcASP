@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Players";
 }
-<p style="user-select:none;"><a asp-action="Create">Create New</a></p>
+<p>
+    @if (User.IsInRole("admin"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
+</p>
 <table class="table">
     <thead style="user-select:none;">
         <tr>
@@ -32,11 +37,14 @@
                 @Html.DisplayFor(modelItem => item.Team.Name)
             </td>
             <td style="user-select:none;">
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-controller="Seasons" asp-action="Index" asp-route-id="@item.Id">Seasons</a>
-            </td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                @if (User.IsInRole("admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                }
+                <a asp-controller="Seasons" asp-action="Index2" asp-route-id="@item.Id"> | Seasons</a>
+                </td>
         </tr>
 }
     </tbody>

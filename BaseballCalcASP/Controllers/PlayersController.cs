@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BaseballCalcASP.Data;
 using BaseballCalcASP.Models;
-using BaseballCalcASP.Migrations;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace BaseballCalcASP.Controllers
 {
@@ -56,6 +57,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Players/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create(int? id)
         {
             if(id != null)
@@ -69,6 +71,7 @@ namespace BaseballCalcASP.Controllers
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,DOB,TeamId")] Player player)
@@ -93,6 +96,7 @@ namespace BaseballCalcASP.Controllers
             return View(player);
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Players/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -115,6 +119,7 @@ namespace BaseballCalcASP.Controllers
         // POST: Players/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DOB,TeamId")] Player player)
@@ -157,6 +162,7 @@ namespace BaseballCalcASP.Controllers
         }
 
         // GET: Players/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Players == null)
