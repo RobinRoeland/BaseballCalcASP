@@ -24,14 +24,16 @@ namespace BaseballCalcASP.Controllers
         // GET: Players
         public async Task<IActionResult> Index()
         {
-            List<Player> players = await _context.Players.ToListAsync();
+            List<Player> players = await _context.Players
+                .Where(t => t.Deleted == false)
+                .ToListAsync();
 
             foreach (Player player in players)
             {
                 player.Team = _context.Teams.Find(player.TeamId);
             }
 
-              return players != null ? 
+            return players != null ? 
                           View(players) :
                           Problem("Entity set 'BaseballCalcASPContext.Player' is null.");
         }
@@ -63,7 +65,7 @@ namespace BaseballCalcASP.Controllers
             if(id != null)
                 ViewBag.Team = _context.Teams.Find(id);
 
-            ViewBag.Teams = _context.Teams;
+            ViewBag.Teams = _context.Teams.Where(t => t.Deleted == false);
 
             return View();
         }
@@ -82,14 +84,11 @@ namespace BaseballCalcASP.Controllers
             {
                 _context.Players.Add(player);
                 _context.SaveChanges();
-                
-                foreach (Team team in _context.Teams)
-                {
-                    team.TotalPlayers = _context.Players.Where(p => p.TeamId == team.Id).Count();
-                    _context.Update(team);
-                }
-
                 await _context.SaveChangesAsync();
+
+                updateTotalPlayersPerTeam();
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,7 +110,7 @@ namespace BaseballCalcASP.Controllers
                 return NotFound();
             }
 
-            ViewBag.Teams = _context.Teams;
+            ViewBag.Teams = _context.Teams.Where(t => t.Deleted == false);
 
             return View(player);
         }
@@ -135,13 +134,9 @@ namespace BaseballCalcASP.Controllers
                 {
                     player.Team = _context.Teams.Find(player.TeamId);
                     _context.Update(player);
+                    await _context.SaveChangesAsync();
 
-                    foreach (Team team in _context.Teams)
-                    {
-                        team.TotalPlayers = _context.Players.Where(p => p.Team.Id == team.Id).Count();
-                        _context.Update(team);
-                    }
-
+                    updateTotalPlayersPerTeam();
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -182,7 +177,7 @@ namespace BaseballCalcASP.Controllers
 
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Players == null)
@@ -192,22 +187,36 @@ namespace BaseballCalcASP.Controllers
             var player = await _context.Players.FindAsync(id);
             if (player != null)
             {
-                _context.Remove(player);
+                player.Deleted = true;
+                player.TeamId = null;
+                player.Team = null;
+                _context.Update(player);
+                await _context.SaveChangesAsync();
+                //_context.Remove(player);
+
+                updateTotalPlayersPerTeam();
+                await _context.SaveChangesAsync();
             }
 
-            foreach (Team team in _context.Teams)
-            {
-                team.TotalPlayers = _context.Players.Where(p => p.Team.Id == team.Id).Count();
-                _context.Update(team);
-            }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PlayerExists(int id)
         {
           return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private void updateTotalPlayersPerTeam()
+        {
+            if (_context.Teams == null || _context.Players == null)
+            {
+                return;
+            }
+            foreach (Team team in _context.Teams.Where(t => t.Deleted == false))
+            {
+                team.TotalPlayers = _context.Players.Where(p => p.TeamId == team.Id && p.Deleted == false).Count();
+                _context.Update(team);
+            }
         }
     }
 }

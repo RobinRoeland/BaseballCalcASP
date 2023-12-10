@@ -22,8 +22,10 @@ namespace BaseballCalcASP.Controllers
             ViewBag.players = _context.Players;
 
             return _context.Seasons != null ?
-                View(await _context.Seasons.ToListAsync()) :
-                Problem("Entity set 'BaseballCalcASPContext.Season'  is null.");
+                View(await _context.Seasons
+                       .Where(t => t.Deleted == false)
+                       .ToListAsync()) :
+                        Problem("Entity set 'BaseballCalcASPContext.Season'  is null.");
         }
 
         public async Task<IActionResult> Index2(int? id)
@@ -33,16 +35,15 @@ namespace BaseballCalcASP.Controllers
 
             if (id != null)
             {
-                List<Season>? seasons = _context.Seasons.Where(season => season.PlayerKey == id).ToList();
+                List<Season>? seasons = _context.Seasons.Where(season => season.PlayerKey == id && season.Deleted == false).ToList();
                 return seasons != null ?
                     View(seasons) :
                     Problem("Player or seasons not found.");
             }
             else
                 return _context.Seasons != null ?
-                    View(await _context.Seasons.ToListAsync()) :
+                    View(await _context.Seasons.Where(t => t.Deleted == false).ToListAsync()) :
                     Problem("Entity set 'BaseballCalcASPContext.Season'  is null.");
-
         }
 
         // GET: Seasons/Details/5
@@ -67,7 +68,7 @@ namespace BaseballCalcASP.Controllers
         {
             ViewBag.players = _context.Players;
 
-            List<Season>? seasons = _context.Seasons.Where(season => season.Year == DateTime.Now.Year).ToList();
+            List<Season>? seasons = _context.Seasons.Where(season => season.Year == DateTime.Now.Year && season.Deleted == false).ToList();
             return seasons != null ?
                 View(seasons) :
                 Problem("Player or seasons not found.");
@@ -183,7 +184,9 @@ namespace BaseballCalcASP.Controllers
             var season = await _context.Seasons.FindAsync(id);
             if (season != null)
             {
-                _context.Seasons.Remove(season);
+                season.Deleted = true;
+                _context.Update(season);
+                //_context.Seasons.Remove(season);
             }
             
             await _context.SaveChangesAsync();

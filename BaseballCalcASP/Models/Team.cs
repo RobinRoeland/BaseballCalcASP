@@ -14,5 +14,7 @@ namespace BaseballCalcASP.Models
 
         [DisplayName("Aantal Spelers")]
         public int TotalPlayers { get; set; } = 0;
+
+        public bool Deleted { get; set; } = false;
     }
 }

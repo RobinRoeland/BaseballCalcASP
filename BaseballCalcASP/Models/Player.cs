@@ -23,6 +23,8 @@ namespace BaseballCalcASP.Models
 
         public int? TeamId { get; set; } = null;
 
+        public bool Deleted { get; set; } = false;
+
         [DisplayName("Ploeg")]
         public Team? Team { get; set; }
     }

@@ -121,25 +121,29 @@ namespace BaseballCalcASP.Data
             {
                 Id = 1,
 				Name = "Waldos",
-                TotalPlayers = 2
+                TotalPlayers = 2,
+                Deleted = false
             },
             new Team
             {
                 Id = 2,
 				Name = "Bebops",
-                TotalPlayers = 2
+                TotalPlayers = 2,
+                Deleted = false
             },
             new Team
             {
                 Id = 3,
 				Name = "Foxes",
-                TotalPlayers = 2
+                TotalPlayers = 2,
+                Deleted = false
             },
             new Team
             {
                 Id = 4,
 				Name = "Kangeroos",
-                TotalPlayers = 1
+                TotalPlayers = 1,
+                Deleted = false
             });
         }
         private void SeedPlayers(ModelBuilder modelBuilder)
@@ -150,56 +154,64 @@ namespace BaseballCalcASP.Data
                 Id = 1,
                 Name = "Waldo",
 				TeamId = 1,
-				DOB = DateTime.ParseExact("05-12-2004 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("05-12-2004 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 2,
                 Name = "Waldo2",
 				TeamId = 1,
-				DOB = DateTime.ParseExact("12-04-2004 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("12-04-2004 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 3,
                 Name = "Kangoeroe",
 				TeamId = 4,
-				DOB = DateTime.ParseExact("15-03-2003 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("15-03-2003 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 4,
                 Name = "Test",
 				TeamId = 2,
-				DOB = DateTime.ParseExact("03-02-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("03-02-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 5,
                 Name = "Test2",
 				TeamId = 2,
-				DOB = DateTime.ParseExact("27-08-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("27-08-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 6,
                 Name = "A1",
 				TeamId = 2,
-				DOB = DateTime.ParseExact("04-03-2005 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("04-03-2005 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 7,
                 Name = "A2",
 				TeamId = 3,
-				DOB = DateTime.ParseExact("02-07-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("02-07-2006 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             },
             new Player
             {
                 Id = 8,
                 Name = "A3",
 				TeamId = 3,
-				DOB = DateTime.ParseExact("04-12-2008 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture)
+				DOB = DateTime.ParseExact("04-12-2008 12:00 am", "dd-MM-yyyy hh:mm tt", CultureInfo.InvariantCulture),
+                Deleted = false
             });
         }
         private void SeedSeasons(ModelBuilder modelBuilder)
@@ -229,7 +241,8 @@ namespace BaseballCalcASP.Data
 				DoublePlays = 0,
 				TriplePlays = 0,
 				PassedBalls = 0,
-				PStrikeOuts = 0
+				PStrikeOuts = 0,
+                Deleted = false
             },
             new Season
             {
@@ -255,7 +268,8 @@ namespace BaseballCalcASP.Data
 				DoublePlays = 0,
 				TriplePlays = 0,
 				PassedBalls = 0,
-				PStrikeOuts = 0
+				PStrikeOuts = 0,
+                Deleted = false
             });
         }
     }

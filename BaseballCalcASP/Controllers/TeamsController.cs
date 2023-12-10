@@ -25,7 +25,9 @@ namespace BaseballCalcASP.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Teams != null ? 
-                          View(await _context.Teams.ToListAsync()) :
+                          View(await _context.Teams
+                          .Where(t => t.Deleted == false)
+                          .ToListAsync()) :
                           Problem("Entity set 'BaseballCalcASPContext.Team'  is null.");
         }
 
@@ -124,6 +126,60 @@ namespace BaseballCalcASP.Controllers
             return View(team);
         }
 
+        // GET: Teams/AddPlayer/5
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddPlayer(int? id)
+        {
+            if (id == null || _context.Teams == null)
+            {
+                return NotFound();
+            }
+
+            var team = await _context.Teams.FindAsync(id);
+            if (team == null)
+            {
+                return NotFound();
+            }
+
+            var plist = _context.Players.Where(p => p.Deleted == false && p.TeamId == null).ToList();
+            ViewBag.Players = new SelectList(plist, "Id", "Name");
+            if (plist.Count() < 1)
+            {
+                return RedirectToAction("Create", "Players", new { id = team.Id });
+            }
+            return View(team);
+        }
+
+        // POST: Teams/AddPlayer/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddPlayer(int id, int playerid, [Bind("Id")] Team team)
+        {
+            if (id != team.Id)
+            {
+                return NotFound();
+            }
+            var player = _context.Players.Find(playerid);
+            if (player != null)
+            {
+                player.TeamId = team.Id;
+                player.Team = await _context.Teams.FindAsync(id);
+                _context.Update(player);
+            }
+            await _context.SaveChangesAsync();
+            foreach (Team t in _context.Teams.Where(t => t.Deleted == false))
+            {
+                t.TotalPlayers = _context.Players.Where(p => p.TeamId == t.Id && p.Deleted == false).Count();
+                _context.Update(t);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Teams/Delete/5
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
@@ -156,9 +212,18 @@ namespace BaseballCalcASP.Controllers
             var team = await _context.Teams.FindAsync(id);
             if (team != null)
             {
-                _context.Teams.Remove(team);
+                team.Deleted = true;
+                _context.Update(team);
+                //_context.Teams.Remove(team);
+
+                foreach (Player speler in _context.Players.Where(p => p.Team.Id == team.Id && p.Deleted == false))
+                {
+                    speler.TeamId = null;
+                    speler.Team = null;
+                    _context.Update(speler);
+                }
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

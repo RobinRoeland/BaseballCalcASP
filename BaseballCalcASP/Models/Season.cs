@@ -79,5 +79,7 @@ namespace BaseballCalcASP.Models
         //Pitching
         [DisplayName("K")]
         public int PStrikeOuts { get; set; }
+
+        public bool Deleted { get; set; } = false;
     }
 }
