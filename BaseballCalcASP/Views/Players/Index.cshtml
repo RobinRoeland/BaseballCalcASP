@@ -3,24 +3,61 @@
 @{
     ViewData["Title"] = "Players";
 }
-<p>
     @if (User.IsInRole("admin"))
     {
-        <a asp-action="Create">Create New</a>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
     }
-</p>
+<style>
+    main.pb-3 {
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px !important;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 5px;
+    }
+    input {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+    table.table {
+        width: 100%;
+        margin-bottom: unset;
+    }
+    main > div {
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+    .table > :not(caption) > * > * {
+        border-bottom: unset;
+    }
+    tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+    tbody tr:last-of-type {
+        border-bottom: unset;
+    }
+</style>
 <input id="q" name="q" type="search" placeholder="Search" onkeyup="updatetable()" />
+<div>
 <table id="qtable" class="table">
     <thead style="user-select:none;">
         <tr>
             <th>
-                <p>@Html.DisplayNameFor(model => model.Name)</p>
+                <span>@Html.DisplayNameFor(model => model.Name)</span>
             </th>
             <th>
-                <p>Leeftijd</p>
+                <span>Leeftijd</span>
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.Team.Name)</p>
+                <span>@Html.DisplayNameFor(model => model.Team.Name)</span>
             </th>
             <th></th>
         </tr>
@@ -32,7 +69,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <p>@(DateTime.Now.Year - item.DOB.Year)</p>
+                <span>@(DateTime.Now.Year - item.DOB.Year)</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Team.Name)
@@ -49,7 +86,8 @@
         </tr>
 }
     </tbody>
- </table>
+    </table>
+</div>
 <script>
     function updatetable() {
         var input, filter, table, tr, td, i, txtValue;
