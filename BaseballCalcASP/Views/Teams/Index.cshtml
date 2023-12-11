@@ -4,50 +4,95 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<style>
+    main.pb-3 {
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px !important;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 5px;
+    }
 
-<p>
+    input {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+
+    table.table {
+        width: 100%;
+        margin-bottom: unset;
+    }
+
+    main > div {
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom: unset;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        tbody tr:last-of-type {
+            border-bottom: unset;
+        }
+</style>
+
+
     @if (User.IsInRole("admin"))
     {
-        <a asp-action="Create">Create New</a>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
     }
-</p>
 
 <input id="q" name="q" type="search" placeholder="Search" onkeyup="updatetable()" />
-<table id="qtable" class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPlayers)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPlayers)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                @if (User.IsInRole("admin"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
-                    <a asp-action="AddPlayer" asp-route-id="@item.Id">Add Player</a>
-                }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div>
+    <table id="qtable" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalPlayers)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPlayers)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                        <a asp-action="AddPlayer" asp-route-id="@item.Id">Add Player</a>
+                    }
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>
+
 <script>
     function updatetable() {
         // Declare variables
