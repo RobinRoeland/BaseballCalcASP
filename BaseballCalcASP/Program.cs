@@ -2,11 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BaseballCalcASP.Data;
 using Microsoft.AspNetCore.Identity;
+using BaseballCalcASP.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BaseballCalcASPContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BaseballCalcASPContext") ?? throw new InvalidOperationException("Connection string 'BaseballCalcASPContext' not found.")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BaseballCalcASPContext>()
     .AddDefaultTokenProviders();

@@ -4,6 +4,7 @@ using BaseballCalcASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseballCalcASP.Migrations
 {
     [DbContext(typeof(BaseballCalcASPContext))]
-    partial class BaseballCalcASPContextModelSnapshot : ModelSnapshot
+    [Migration("20240107143534_addedAppUser")]
+    partial class addedAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,15 +341,15 @@ namespace BaseballCalcASP.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b6488eb3-495e-43e7-b447-9ff9afbccf56",
-                            ConcurrencyStamp = "538d6168-fedd-43d5-a442-64d3ee9dc1dc",
+                            Id = "47b522b9-d5b0-4111-9515-7d65eb7d858b",
+                            ConcurrencyStamp = "d9ca6c57-ee74-44b2-a95d-1e6974aa00a9",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "79437a70-e29b-4720-ac46-0afcac25e0cb",
-                            ConcurrencyStamp = "1118a16d-28eb-4086-b978-547ab1f66daa",
+                            Id = "5122fdd8-cf7a-4d09-80a9-4e2be18e67bf",
+                            ConcurrencyStamp = "c3443045-e27e-46b9-9767-1a7ecf5c6406",
                             Name = "user",
                             NormalizedName = "user"
                         });
@@ -388,10 +390,6 @@ namespace BaseballCalcASP.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -446,7 +444,39 @@ namespace BaseballCalcASP.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.HasData(
+                        new
+                        {
+                            Id = "29cd4f83-6fea-478f-8afc-339577ef0415",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7c0c406a-204d-462b-a574-c34d6be6303c",
+                            Email = "admin@testemail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@TESTEMAIL.COM",
+                            NormalizedUserName = "ADMIN@TESTEMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAu/c32OXf+Pwrpkh9dKpxAd/1qWFdTWpvtgGE2qKH91GAbx4S9fIE6TPtjLCaLJJw==",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "0918405d-23c0-4c2b-8194-a47609d2e9b1",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@testemail.com"
+                        },
+                        new
+                        {
+                            Id = "6d0c9aea-68fb-458e-a2ad-d87badb642fa",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a0e7b46f-e89c-4313-a5b7-2ab3a2ba298e",
+                            Email = "user1@testemail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER1@TESTEMAIL.COM",
+                            NormalizedUserName = "USER1@TESTEMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKhV57kmILJ1Qn1I+4jZrx4hgPvkYweBDzgzYM3/i35s1G+d0p3hTRvYNGCy0bMQkQ==",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "f51fd57c-f0e0-4845-8d9c-92007f82ec25",
+                            TwoFactorEnabled = false,
+                            UserName = "user1@testemail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -515,18 +545,13 @@ namespace BaseballCalcASP.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ede38fe2-8685-44e0-96c5-8aac6ea1a8d5",
-                            RoleId = "b6488eb3-495e-43e7-b447-9ff9afbccf56"
+                            UserId = "29cd4f83-6fea-478f-8afc-339577ef0415",
+                            RoleId = "47b522b9-d5b0-4111-9515-7d65eb7d858b"
                         },
                         new
                         {
-                            UserId = "d6fbfb97-d5eb-4c22-9ff4-d99092a82f8a",
-                            RoleId = "79437a70-e29b-4720-ac46-0afcac25e0cb"
-                        },
-                        new
-                        {
-                            UserId = "aa261f3c-fb84-4047-b7d2-4e92faa82fe5",
-                            RoleId = "79437a70-e29b-4720-ac46-0afcac25e0cb"
+                            UserId = "6d0c9aea-68fb-458e-a2ad-d87badb642fa",
+                            RoleId = "5122fdd8-cf7a-4d09-80a9-4e2be18e67bf"
                         });
                 });
 
@@ -549,83 +574,6 @@ namespace BaseballCalcASP.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("BaseballCalcASP.Models.AppUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("deleted")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("AppUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ede38fe2-8685-44e0-96c5-8aac6ea1a8d5",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a07d04f-1e3e-4769-bf7a-10e46d137b3e",
-                            Email = "admin@testemail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@TESTEMAIL.COM",
-                            NormalizedUserName = "ADMIN@TESTEMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE66EQGB1Tm3GeZ2cUwcJoK2AO/kAH0RBFbBFWCVfISIdEGCXSzQDGICkS5N2OlBbA==",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "c007b2f4-34d9-42d9-a9a8-4d753e51a422",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@testemail.com",
-                            FirstName = "System",
-                            LastName = "Administrator",
-                            deleted = false
-                        },
-                        new
-                        {
-                            Id = "d6fbfb97-d5eb-4c22-9ff4-d99092a82f8a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3b17707-d3c9-4855-a321-24f068563b3f",
-                            Email = "user1@testemail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER1@TESTEMAIL.COM",
-                            NormalizedUserName = "USER1@TESTEMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAL3GQUMxMG2gkoKft4OB0XeomRigxDjKz/6kDkJcFTqhucCM71h9gpAlHG/0FpEtw==",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "1f0c1585-7cc0-43d9-b3cb-b4b5034e7875",
-                            TwoFactorEnabled = false,
-                            UserName = "user1@testemail.com",
-                            FirstName = "User1",
-                            LastName = "AppUser1",
-                            deleted = false
-                        },
-                        new
-                        {
-                            Id = "aa261f3c-fb84-4047-b7d2-4e92faa82fe5",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "510af556-925a-48c3-aad5-b46232abf223",
-                            Email = "user2@testemail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER2@TESTEMAIL.COM",
-                            NormalizedUserName = "USER2@TESTEMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHuqlOnMMunWEWQHkK/XzBYiJUtgjn7rLjBukSBCpA31k/gxEuohE3VTWCCej4AOAg==",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "c73ea248-a680-4afc-b1e8-4f0a2923303d",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@testemail.com",
-                            FirstName = "User2",
-                            LastName = "AppUser2",
-                            deleted = false
-                        });
                 });
 
             modelBuilder.Entity("BaseballCalcASP.Models.Player", b =>

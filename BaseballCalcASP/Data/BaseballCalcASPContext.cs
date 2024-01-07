@@ -27,6 +27,7 @@ namespace BaseballCalcASP.Data
         // any unique string id
         string ADMIN_ID = Guid.NewGuid().ToString("D");
         string USR1_ID = Guid.NewGuid().ToString("D");
+        string USR2_ID = Guid.NewGuid().ToString("D");
 
         string ADMINROLE_ID = Guid.NewGuid().ToString("D");
         string USERROLE_ID = Guid.NewGuid().ToString("D");
@@ -49,7 +50,7 @@ namespace BaseballCalcASP.Data
             this.SeedUsers(modelBuilder);
             this.SeedUserRoles(modelBuilder);
 
-            this.SeedTeams (modelBuilder);
+            this.SeedTeams(modelBuilder);
             this.SeedPlayers(modelBuilder);
             this.SeedSeasons(modelBuilder);
         }
@@ -72,9 +73,9 @@ namespace BaseballCalcASP.Data
         }
         private void SeedUsers(ModelBuilder modelBuilder)
         {
-            var hasher = new PasswordHasher<IdentityUser>();
-            modelBuilder.Entity<IdentityUser>().HasData(
-            new IdentityUser
+            var hasher = new PasswordHasher<AppUser>();
+            modelBuilder.Entity<AppUser>().HasData(
+            new AppUser
             {
                 Id = ADMIN_ID,
                 UserName = "admin@testemail.com",
@@ -84,9 +85,12 @@ namespace BaseballCalcASP.Data
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                FirstName = "System",
+                LastName = "Administrator",
+                deleted = false
             },
-            new IdentityUser
+            new AppUser
             {
                 Id = USR1_ID,
                 UserName = "user1@testemail.com",
@@ -96,7 +100,25 @@ namespace BaseballCalcASP.Data
                 EmailConfirmed = true,//false,
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"), //string.Empty,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                FirstName = "User1",
+                LastName = "AppUser1",
+                deleted = false
+            },
+            new AppUser
+            {
+                Id = USR2_ID,
+                UserName = "user2@testemail.com",
+                NormalizedUserName = "USER2@TESTEMAIL.COM",
+                Email = "user2@testemail.com",
+                NormalizedEmail = "USER2@TESTEMAIL.COM",
+                EmailConfirmed = true,//false,
+                PasswordHash = hasher.HashPassword(null, "Start123#"),
+                SecurityStamp = Guid.NewGuid().ToString("D"), //string.Empty,
+                PhoneNumberConfirmed = true,
+                FirstName = "User2",
+                LastName = "AppUser2",
+                deleted = false
             });
         }
         private void SeedUserRoles(ModelBuilder modelBuilder)
@@ -111,6 +133,11 @@ namespace BaseballCalcASP.Data
             {
                 RoleId = USERROLE_ID,
                 UserId = USR1_ID
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = USERROLE_ID,
+                UserId = USR2_ID
             });
         }
 
