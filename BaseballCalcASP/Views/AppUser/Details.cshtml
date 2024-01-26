@@ -1,7 +1,7 @@
 ﻿@model BaseballCalcASP.Models.AppUser
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["Details"];
 }
 <style>
     character {
@@ -49,21 +49,21 @@
     <column>
         <row>
             <column>
-                <name>@Html.DisplayNameFor(model => model.UserName)<p>@Html.DisplayFor(model => model.UserName)</p></name>
-                <name>@Html.DisplayNameFor(model => model.FirstName)<p>@Html.DisplayFor(model => model.FirstName)</p></name>
-                <name>@Html.DisplayNameFor(model => model.LastName)<p>@Html.DisplayFor(model => model.LastName)</p></name>
-                <name>@Html.DisplayNameFor(model => model.Email)<p>@Html.DisplayFor(model => model.Email)</p></name>
-                <name>Deleted<p>@Html.DisplayFor(model => model.deleted)</p></name>
-                <name>Roles<p>@(string.Join(", ", await UserManager.GetRolesAsync(Model)))</p></name>
+                <name>@Localizer["UserName"]<p>@Model.UserName</p></name>
+                <name>@Localizer["FirstName"]<p>@Model.FirstName</p></name>
+                <name>@Localizer["LastName"]<p>@Model.LastName</p></name>
+                <name>@Localizer["Email"]<p>@Model.Email</p></name>
+                <name>@Localizer["Deleted"]<p>@Model.deleted</p></name>
+                <name>@Localizer["Roles"]<p>@(string.Join(", ", await UserManager.GetRolesAsync(Model)))</p></name>
             </column>
         </row>
         <hr />
         <div style="user-select:none;">
             @if (User.IsInRole("admin"))
             {
-                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit | </a>
+                <a asp-action="Edit" asp-route-id="@Model?.Id">@Localizer["Edit"]</a>
             }
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index">@Localizer["BackToList"]</a>
         </div>
     </column>
 </character>

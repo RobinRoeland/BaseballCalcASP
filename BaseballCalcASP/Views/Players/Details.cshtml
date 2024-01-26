@@ -1,7 +1,7 @@
 ﻿@model BaseballCalcASP.Models.Player
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Localizer["Details"];
 }
 <style>
     character {
@@ -48,19 +48,19 @@
         <row>
             <img id="characterPic" src="https://www.shareicon.net/data/512x512/2016/07/21/799345_user_512x512.png" />
             <column>
-                <name>@Html.DisplayNameFor(model => model.Name)<p>@Html.DisplayFor(model => model.Name)</p></name>
-                <name>Leeftijd<p>@(DateTime.Now.Year - Model.DOB.Year)</p></name>
-                <name>@Html.DisplayNameFor(model => model.DOB)<p>@Html.DisplayFor(model => model.DOB)</p></name>
-                <name>@Html.DisplayNameFor(model => model.Team.Name)<p>@Html.DisplayFor(model => model.Team.Name)</p></name>
+                <name>@Localizer["Name"]<p>@Html.DisplayFor(model => model.Name)</p></name>
+                <name>@Localizer["Age"]<p>@(DateTime.Now.Year - Model.DOB.Year)</p></name>
+                <name>@Localizer["DOB"]<p>@Html.DisplayFor(model => model.DOB)</p></name>
+                <name>@Localizer["Team"]<p>@Html.DisplayFor(model => model.Team.Name)</p></name>
             </column>
         </row>
         <hr/>
         <div style="user-select:none;">
             @if (User.IsInRole("admin"))
             {
-                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit | </a>
+                <a asp-action="Edit" asp-route-id="@Model?.Id">@Localizer["Edit"] |</a>
             }
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index">@Localizer["BackToList"]</a>
         </div>
     </column>
 </character>

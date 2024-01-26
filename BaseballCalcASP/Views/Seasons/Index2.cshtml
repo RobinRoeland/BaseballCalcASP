@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<BaseballCalcASP.Models.Season>
 
 @{
-    ViewData["Title"] = "Seasons";
+    ViewData["Title"] = @Localizer["Seasons"];
 }
 
-<h1>Seasons</h1>
+<h1>@Localizer["Seasons"]</h1>
 @if (ViewBag.playerid != null)
 {
     <p>
         @if (User.IsInRole("admin"))
         {
-            <a asp-action="Create" asp-route-id="@ViewBag.playerid">Create New</a>
+            <a asp-action="Create" asp-route-id="@ViewBag.playerid">@Localizer["Create"]</a>
         }
     </p>
     <p>
@@ -20,10 +20,10 @@
     <thead>
         <tr>
             <th>
-                Year
+                @Localizer["Year"]
             </th>
             <th>
-                Games
+                @Localizer["Games"]
             </th>
             <th>
                 TA
@@ -157,14 +157,17 @@
                 @Html.DisplayFor(modelItem => item.PStrikeOuts)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
                 @if (User.IsInRole("admin"))
                 {
-                    <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id"> | @Localizer["Edit"]</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"> | @Localizer["Delete"] </a>
                 }
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Players" asp-action="Index">@Localizer["BackToList"]</a>
+</div>

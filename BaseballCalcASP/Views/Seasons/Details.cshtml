@@ -1,7 +1,7 @@
 ﻿@model BaseballCalcASP.Models.Season
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Localizer["Details"];
 }
 <style>
     row {
@@ -43,7 +43,7 @@
     }
 </style>
 
-<h1>Details</h1>
+<h1>@Localizer["Details"]</h1>
 
 <div>
     <row>
@@ -55,93 +55,93 @@
             float sluggingavg = totalbases / atbats;
         }
         <column>
-            <p><h4>@Html.DisplayNameFor(seasonItem => season.PlayerKey)</h4>@season.PlayerKey</p>
-            <p><h4>@Html.DisplayNameFor(seasonItem =>season.GamesPlayed)</h4>@season.GamesPlayed</p>
-            <p><h4>@Html.DisplayNameFor(seasonItem => season.Year)</h4>@season.Year</p>
+            <p><h4>@Localizer["PlayerKey"]</h4>@season.PlayerKey</p>
+            <p><h4>@Localizer["GamesPlayed"]</h4>@season.GamesPlayed</p>
+            <p><h4>@Localizer["Year"]</h4>@season.Year</p>
         </column>
         <column class="middle-column">
-            <h1>Hitting Stats</h1>
+            <h1>@Localizer["HittingStats"]</h1>
             <div>
                 <div>
-                    <h4>Total Avg</h4>
+                    <h4>@Localizer["TotalAvg"]</h4>
                     <span>@Math.Round((totalbases + season.BaseOnBalls + season.StolenBases) / (season.PlateAppearences + season.CaughtStealing), 2)</span>
                 </div>
                 <div>
-                    <h4>Slugging</h4>
+                    <h4>@Localizer["Slugging"]</h4>
                     <span>@Math.Round(sluggingavg, 2)</span>
                 </div>
                 <div>
-                    <h4>Batting Avg</h4>
+                    <h4>@Localizer["BattingAvg"]</h4>
                     <span>@Math.Round(season.Hits / atbats, 3)</span>
                 </div>
                 <div>
-                    <h4>At Bats</h4>
+                    <h4>@Localizer["AtBats"]</h4>
                     <span>@atbats</span>
                 </div>
                 <div>
-                    <h4>Hits</h4>
+                    <h4>@Localizer["Hits"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.Hits)</span>
                 </div>
                 <div>
-                    <h4>Strikeouts</h4>
+                    <h4>@Localizer["StrikeOuts"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.HStrikeOuts)</span>
                 </div>
                 <div>
-                    <h4>Base On Balls</h4>
+                    <h4>@Localizer["BaseOnBalls"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.BaseOnBalls)</span>
                 </div>
                 <div>
-                    <h4>Hit By Pitch</h4>
+                    <h4>@Localizer["HitByPitch"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.HitByPitch)</span>
                 </div>
                 <div>
-                    <h4>Base On Balls / Strikeouts</h4>
+                    <h4>@Localizer["BaseOnBalls/StrikeOuts"]</h4>
                     <span>@(Math.Round((double)(season.BaseOnBalls / season.HStrikeOuts), 2))</span>
                 </div>
                 <div>
-                    <h4>Total Bases</h4>
+                    <h4>@Localizer["TotalBases"]</h4>
                     <span>@totalbases</span>
                 </div>
                 <div>
-                    <h4>Singles</h4>
+                    <h4>@Localizer["Singles"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.Singles)</span>
                 </div>
                 <div>
-                    <h4>Doubles</h4>
+                    <h4>@Localizer["Doubles"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.Doubles)</span>
                 </div>
                 <div>
-                    <h4>Triples</h4>
+                    <h4>@Localizer["Triples"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.Triples)</span>
                 </div>
                 <div>
-                    <h4>Home Runs</h4>
+                    <h4>@Localizer["HomeRuns"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.HomeRuns)</span>
                 </div>
                 <div>
-                    <h4>On Base Percentage</h4>
+                    <h4>@Localizer["OnBasePercentage"]</h4>
                     <span>@Math.Round(obp, 2)</span>
                 </div>
                 <div>
-                    <h4>On Base Plus Slugging</h4>
+                    <h4>@Localizer["OnBasePlusSlugging"]</h4>
                     <span>@Math.Round((obp + sluggingavg), 2)</span>
                 </div>
                 <div>
-                    <h4>Stolen Bases</h4>
+                    <h4>@Localizer["StolenBases"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.StolenBases)</span>
                 </div>
                 <div>
-                    <h4>Caught Stealing</h4>
+                    <h4>@Localizer["CaughtStealing"]</h4>
                     <span>@Html.DisplayFor(seasonItem => season.CaughtStealing)</span>
                 </div>
             </div>
         </column>
         <column>
-            <h1>Pitching Stats</h1>
-            <p><h4>Strikeouts</h4> @Html.DisplayFor(seasonItem => season.PStrikeOuts)</p>
+            <h1>@Localizer["PitchingStats"]</h1>
+            <p><h4>@Localizer["StrikeOuts"]</h4> @Html.DisplayFor(seasonItem => season.PStrikeOuts)</p>
         </column>
     </row>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>

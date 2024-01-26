@@ -18,26 +18,41 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Teams" asp-action="Index">Teams</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Index">Players</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Seasons" asp-action="Leaderboard">Leaderboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Seasons" asp-action="Index">Seasons</a>
-                        </li>
-                        @if (User.IsInRole("admin"))
-                        {
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AppUser" asp-action="Index">User Management</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Teams" asp-action="Index">@Localizer["Teams"]</a>
                             </li>
-                        }
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Index">@Localizer["Players"]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Seasons" asp-action="Index">@Localizer["Seasons"]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Seasons" asp-action="Leaderboard">@Localizer["Leaderboard"]</a>
+                            </li>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="AppUser" asp-action="Index">@Localizer["UserManagement"]</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            </li>
+                        </ul>
+                    }
+                    <div class="sidebar">
+                        @await Component.InvokeAsync("LanguageSelector")
+                    </div>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -51,7 +66,7 @@
 
     <footer class="border-top footer text-muted" style="user-select:none;">
         <div class="container">
-            &copy; 2023 - BaseballCalcASP - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - BaseballCalcASP - <a asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

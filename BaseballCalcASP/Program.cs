@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using BaseballCalcASP.Data;
 using Microsoft.AspNetCore.Identity;
 using BaseballCalcASP.Models;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BaseballCalcASPContext>(options =>
@@ -16,7 +19,38 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Localizatie toevoegen
+builder.Services.AddLocalization(options => options.ResourcesPath = "Localizing");
+
+builder.Services.AddMvc()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+// Configure supported cultures
+var supportedCultures = new[]
+{
+        new CultureInfo("en-US"),
+        new CultureInfo("nl-BE"),
+        new CultureInfo("fr-FR")
+        // Add more cultures as needed
+    };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 var app = builder.Build();
+
+// Als er nog geen database is maar wel een bestaande migration, dan wordt de database hier automatisch aangemaakt
+using (var serviceScope = app.Services.CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<BaseballCalcASPContext>();
+    context.Database.Migrate();
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,6 +62,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// zonder deze lijn werkt de localizatie niet
+app.UseRequestLocalization();
 
 app.UseRouting();
 app.UseAuthentication();;

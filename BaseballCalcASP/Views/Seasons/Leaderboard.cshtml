@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BaseballCalcASP.Models.Season>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Localizer["Leaderboard"];
 }
 
 <!--<link rel="stylesheet" href="../Css/Tables.css"/>-->
@@ -49,23 +49,23 @@
 </style>
 
 
-<h1>Leaderboard</h1>
+<h1>@Localizer["Leaderboard"]</h1>
 
 <div>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Player
+                    @Localizer["Player"]
                 </th>
                 <th>
                     Nr
                 </th>
                 <th>
-                    Year
+                    @Localizer["Year"]
                 </th>
                 <th>
-                    Games
+                    @Localizer["Games"]
                 </th>
                 <th>
                     TA
@@ -207,7 +207,7 @@
                         @Html.DisplayFor(modelItem => item.PStrikeOuts)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
                     </td>
                 </tr>
             }
